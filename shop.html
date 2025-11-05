@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Shop All Products - Mercurial Apparel</title>
+    <link rel="icon" href="asset/photos/LOGO.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Prevent scrolling when menu is open */
+        body.no-scroll {
+            overflow: hidden;
+            height: 100%;
+            position: fixed;
+            width: 100%;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+            position: relative;
+        }
+
+        /* Logo styles from styles.css */
+        .logo {
+            display: flex;
+            align-items: center;
+            height: 140px;
+            padding: 5px 0;
+            margin: 0;
+        }
+        
+        .logo-img {
+            height: 150%;
+            width: auto;
+            max-width: 400px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            margin: 0;
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                height: 120px; /* Increased from 100px */
+                padding: 10px 0; /* Added padding for better spacing */
+            }
+            
+            .logo-img {
+                height: 100%;
+                max-height: 150px; /* Increased from 120px */
+                max-width: 300px; /* Added max-width for better control */
+            }
+            
+            .product-filters {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .filter-group {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                margin: 0 -1rem;
+                padding: 0 1rem 0.5rem;
+            }
+            
+            .filter-group::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .category-filter {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+            
+            .sort-group {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 0.5rem;
+            }
+            
+            .sort-group select {
+                flex: 1;
+                max-width: 200px;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-links.active {
+                display: flex;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 0.8rem 1rem;
+                color: #333;
+                text-decoration: none;
+                transition: background-color 0.2s;
+            }
+            
+            .nav-links a:hover,
+            .nav-links a.active {
+                background-color: #f8f9fa;
+                color: #000;
+            }
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-gray: #f8f9fa;
+            --dark-gray: #2c3e50;
+            --text-color: #333;
+            --text-light: #7f8c8d;
+            --transition: all 0.3s ease;
+        }
+        
+        .shop-header {
+            text-align: center;
+            padding: 6rem 5% 4rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shop-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-color);
+        }
+        
+        .shop-header h1 {
+            font-size: 3rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .shop-header {
+                padding: 4rem 5% 2rem;
+            }
+            
+            .shop-header h1 {
+                font-size: 2rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .product-card {
+                margin: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .shop-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                padding: 0 1rem;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+        }
+        
+        .shop-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+        
+        .shop-header p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .all-products {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .product-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .filter-group span {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+        
+        .category-filter {
+            padding: 0.5rem 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex: 1 0 auto;
+            text-align: center;
+        }
+        
+        .category-filter:hover, .category-filter.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .sort-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .sort-group label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        .sort-group select {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .sort-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #f8f9fa;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+        
+        .quick-view {
+            background: white;
+            color: var(--dark-gray);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .product-card:hover .quick-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .quick-view:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .product-card h3 {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin: 1.2rem 1.5rem 0.5rem;
+            font-weight: 600;
+        }
+        
+        .product-card .price {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 1.5rem 1.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .shop-header {
+                padding: 5rem 5% 3rem;
+            }
+            
+            .shop-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .product-filters {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .sort-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .shop-header h1 {
+                font-size: 2rem;
+            }
+            
+            .shop-header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="asset/photos/BLACK.png" alt="Mercurial Logo" class="logo-img">
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Shop Header -->
+    <section class="shop-header">
+        <h1>Our Collection</h1>
+        <p>Explore our premium selection of stylish and comfortable apparel for every occasion.</p>
+    </section>
+
+    <!-- All Products -->
+    <section class="all-products">
+        <div class="product-filters">
+            <div class="filter-group">
+                <span>Filter:</span>
+                <div class="category-filter active" data-category="all">All Products</div>
+                <div class="category-filter" data-category="shirts">Shirts</div>
+                <div class="category-filter" data-category="pants">Pants</div>
+                <div class="category-filter" data-category="dresses">Dresses</div>
+                <div class="category-filter" data-category="accessories">Accessories</div>
+            </div>
+            <div class="sort-group">
+                <label for="sort">Sort by:</label>
+                <select id="sort" name="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="newest">Newest Arrivals</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="product-grid" id="productsContainer">
+            <!-- Products will be loaded dynamically from products.js -->
+            <div class="loading">Loading products...</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 <a href="login.html" style="color: inherit; text-decoration: none;">Mercurial Apparel</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Include products.js -->
+    <script src="js/products.js"></script>
+    <script>
+        let allProducts = [];
+        let currentCategory = 'all';
+        
+        // Function to filter products by category
+        function filterProductsByCategory(products, category) {
+            if (category === 'all') return products;
+            return products.filter(product => product.category === category);
+        }
+        
+        // Function to display filtered products
+        function displayFilteredProducts() {
+            const container = document.getElementById('productsContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const filteredProducts = filterProductsByCategory(allProducts, currentCategory);
+            
+            if (filteredProducts.length === 0) {
+                container.innerHTML = '<div class="no-products">No products found in this category.</div>';
+                return;
+            }
+            
+            filteredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                container.appendChild(productCard);
+            });
+        }
+        
+        // Function to create product card
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <a href="product-details.html?id=${product.id}" class="product-image" style="background-image: url('${product.images && product.images[0] ? product.images[0] : 'https://via.placeholder.com/300x400'}');">
+                    <div class="product-overlay">
+                        <span class="quick-view">View Details</span>
+                    </div>
+                </a>
+                <div class="product-info">
+                    <span class="category">${product.category || 'Uncategorized'}</span>
+                    <h3>${product.name}</h3>
+                    <div class="price">₱${product.price.toFixed(2)}</div>
+                </div>
+            `;
+            return card;
+        }
+        
+        // Function to fetch and display all products
+        async function displayAllProducts() {
+            const response = await fetch('data/products.json');
+            allProducts = await response.json();
+            
+            // Set up category filter event listeners
+            document.querySelectorAll('.category-filter').forEach(filter => {
+                filter.addEventListener('click', function() {
+                    document.querySelector('.category-filter.active').classList.remove('active');
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    displayFilteredProducts();
+                });
+            });
+            
+            // Initial display of products
+            displayFilteredProducts();
+            
+            // Add sorting functionality
+            const sortSelect = document.getElementById('sort');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    const sortedProducts = [...allProducts];
+                    
+                    // Apply category filter
+                    const filteredProducts = filterProductsByCategory(sortedProducts, currentCategory);
+                    
+                    // Apply sorting
+                    switch(this.value) {
+                        case 'price-low':
+                            filteredProducts.sort((a, b) => a.price - b.price);
+                            break;
+                        case 'price-high':
+                            filteredProducts.sort((a, b) => b.price - a.price);
+                            break;
+                        case 'newest':
+                            // Assuming newer products have higher IDs
+                            filteredProducts.sort((a, b) => b.id.localeCompare(a.id));
+                            break;
+                        default:
+                            // Default sorting (featured)
+                            break;
+                    }
+                    
+                    // Re-render products
+                    const productGrid = document.getElementById('productsContainer');
+                    if (productGrid) {
+                        productGrid.innerHTML = '';
+                        filteredProducts.forEach(product => {
+                            const productCard = createProductCard(product);
+                            productGrid.appendChild(productCard);
+                        });
+                    }
+                });
+            }
+        }
+        
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const body = document.body;
+            
+            if (mobileMenuToggle && navLinks) {
+                // Toggle menu function
+                const toggleMenu = () => {
+                    navLinks.classList.toggle('active');
+                    body.classList.toggle('no-scroll');
+                };
+                
+                // Toggle menu on button click
+                mobileMenuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleMenu();
+                });
+                
+                // Close menu when clicking on a link
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                    }
+                });
+                
+                // Close menu on window resize if it becomes desktop view
+                const handleResize = () => {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                    }
+                };
+                
+                window.addEventListener('resize', handleResize);
+            }
+            
+            // Initialize the shop page
+            displayAllProducts();
+        });
+    </script>
+</body>
+</html>

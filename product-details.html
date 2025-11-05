@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Premium Shirt - Mercurial</title>
+    <link rel="icon" href="asset/photos/LOGO.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="product-details.css">
+    <style>
+        /* Prevent scrolling when menu is open */
+        body.no-scroll {
+            overflow: hidden;
+            height: 100%;
+            position: fixed;
+            width: 100%;
+        }
+        
+        /* Logo styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            height: 140px;
+            padding: 5px 0;
+            margin: 0;
+        }
+        
+        .logo-img {
+            height: 150%;
+            width: auto;
+            max-width: 400px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            margin: 0;
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                height: 120px;
+                padding: 10px 0;
+            }
+            
+            .logo-img {
+                height: 100%;
+                max-height: 150px;
+                max-width: 300px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                z-index: 1000;
+                overflow-y: auto;
+                max-height: calc(100vh - 70px);
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-links.active {
+                display: flex;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+            
+            .nav-links a {
+                display: block;
+                padding: 0.8rem 1rem;
+                color: #333;
+                text-decoration: none;
+                transition: background-color 0.2s;
+            }
+            
+            .nav-links a:hover,
+            .nav-links a.active {
+                background-color: #f8f9fa;
+                color: #000;
+            }
+        }
+
+        /* Base styles */
+        body { 
+            background-color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Product details responsive */
+        @media (max-width: 992px) {
+            .product-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .product-gallery {
+                max-width: 100%;
+            }
+            
+            .product-info {
+                padding: 0;
+            }
+            
+            .thumbnail-container {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .product-title {
+                font-size: 1.8rem;
+            }
+            
+            .product-price {
+                font-size: 1.5rem;
+            }
+            
+            .quantity-selector {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .quantity-controls {
+                margin-left: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .social-share {
+                justify-content: center;
+            }
+        }
+    </style>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="asset/photos/BLACK.png" alt="Mercurial Logo" class="logo-img">
+                </a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Product Details Section -->
+    <section class="product-details">
+        <div class="container">
+            <div class="product-content">
+                <!-- Product Images -->
+                <div class="product-gallery">
+                    <div class="main-image-container">
+                        <img src="https://via.placeholder.com/600x800/2c3e50/ffffff?text=Product+Image" alt="Product Image" id="mainImage" class="main-image">
+                    </div>
+                    <div class="thumbnail-container" id="thumbnailContainer">
+                        <div class="thumbnail active">
+                            <img src="https://via.placeholder.com/100x150/2c3e50/ffffff?text=1" alt="Thumbnail 1">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="https://via.placeholder.com/100x150/e74c3c/ffffff?text=2" alt="Thumbnail 2">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="https://via.placeholder.com/100x150/3498db/ffffff?text=3" alt="Thumbnail 3">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Info -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <span class="category">Premium Collection</span>
+                        <h1>Loading...</h1>
+                        <div class="price-container">
+                            <span class="price">₱0.00</span>
+                            <span class="original-price">₱0.00</span>
+                            <span class="discount">0% OFF</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-description">
+                        <p class="description-text">Loading product details...</p>
+                        
+                        <div class="features">
+                            <h4><i class="fas fa-tags"></i> Features:</h4>
+                            <ul class="features-list">
+                                <!-- Features will be loaded dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-primary copy-link-btn" id="copyLinkBtn">
+                                <i class="fas fa-link"></i> Copy Link
+                            </button>
+                        </div>
+                        <p id="copyStatus" style="display: none; color: #27ae60; margin-top: 10px;">Link copied to clipboard!</p>
+                        
+                        <div class="shipping-info">
+                            <div class="shipping-item">
+                                <i class="fas fa-truck"></i>
+                                <div>
+                                    <h5>Free Shipping</h5>
+                                    <p>On all orders over ₱1,000</p>
+                                </div>
+                            </div>
+                            <div class="shipping-item">
+                                <i class="fas fa-undo"></i>
+                                <div>
+                                    <h5>Easy Returns</h5>
+                                    <p>30-day return policy</p>
+                                </div>
+                            </div>
+                            <div class="shipping-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <h5>Secure Checkout</h5>
+                                    <p>Your data is always safe</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 <a href="login.html" style="color: inherit; text-decoration: none;">Mercurial Apparel</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script>
+        // Function to handle mobile menu
+        function setupMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const body = document.body;
+            
+            if (mobileMenuToggle && navLinks) {
+                const toggleMenu = () => {
+                    navLinks.classList.toggle('active');
+                    body.classList.toggle('no-scroll');
+                };
+                
+                mobileMenuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleMenu();
+                });
+                
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                    });
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                    }
+                });
+                
+                const handleResize = () => {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('active');
+                        body.classList.remove('no-scroll');
+                    }
+                };
+                
+                window.addEventListener('resize', handleResize);
+            }
+        }
+        
+        // Function to ensure product images are visible
+        function setupProductImages() {
+            const productImages = document.querySelectorAll('.product-image, .main-image, .thumbnail');
+            productImages.forEach(img => {
+                if (img) {
+                    img.style.display = 'block';
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                }
+            });
+        }
+        
+        // Function to handle image zoom functionality
+        function setupImageZoom() {
+            const mainImage = document.querySelector('.main-image');
+            const mainImageContainer = document.querySelector('.main-image-container');
+            
+            if (mainImage && mainImageContainer) {
+                let isZoomed = false;
+                const zoomFactor = 2;
+                
+                const zoomLens = document.createElement('div');
+                zoomLens.className = 'zoom-lens';
+                zoomLens.style.display = 'none';
+                mainImageContainer.appendChild(zoomLens);
+                
+                // Show/hide zoom lens
+                mainImageContainer.addEventListener('mouseenter', () => {
+                    if (!isZoomed) zoomLens.style.display = 'block';
+                });
+                
+                mainImageContainer.addEventListener('mouseleave', () => {
+                    if (!isZoomed) zoomLens.style.display = 'none';
+                });
+                
+                // Handle mouse movement
+                mainImageContainer.addEventListener('mousemove', (e) => {
+                    const containerRect = mainImageContainer.getBoundingClientRect();
+                    const x = e.clientX - containerRect.left;
+                    const y = e.clientY - containerRect.top;
+                    
+                    const lensSize = 200;
+                    const lensX = x - lensSize/2;
+                    const lensY = y - lensSize/2;
+                    
+                    const maxX = containerRect.width - lensSize;
+                    const maxY = containerRect.height - lensSize;
+                    
+                    zoomLens.style.width = `${lensSize}px`;
+                    zoomLens.style.height = `${lensSize}px`;
+                    zoomLens.style.left = `${Math.min(Math.max(0, lensX), maxX)}px`;
+                    zoomLens.style.top = `${Math.min(Math.max(0, lensY), maxY)}px`;
+                    
+                    const bgX = (x / containerRect.width) * 100;
+                    const bgY = (y / containerRect.height) * 100;
+                    
+                    if (isZoomed) {
+                        const moveX = (containerRect.width/2 - x) * (zoomFactor - 1);
+                        const moveY = (containerRect.height/2 - y) * (zoomFactor - 1);
+                        mainImage.style.transform = `scale(${zoomFactor}) translate(${moveX}px, ${moveY}px)`;
+                    } else {
+                        zoomLens.style.backgroundImage = `url('${mainImage.src}')`;
+                        zoomLens.style.backgroundSize = `${containerRect.width * zoomFactor}px ${containerRect.height * zoomFactor}px`;
+                        zoomLens.style.backgroundPosition = `${bgX}% ${bgY}%`;
+                    }
+                });
+                
+                // Toggle zoom on click
+                mainImageContainer.addEventListener('click', () => {
+                    isZoomed = !isZoomed;
+                    
+                    if (isZoomed) {
+                        zoomLens.style.display = 'none';
+                        mainImageContainer.style.cursor = 'zoom-out';
+                        mainImage.style.transform = `scale(${zoomFactor})`;
+                    } else {
+                        zoomLens.style.display = 'block';
+                        mainImageContainer.style.cursor = 'zoom-in';
+                        mainImage.style.transform = 'scale(1)';
+                    }
+                });
+            }
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setupMobileMenu();
+            setupProductImages();
+            setupImageZoom();
+            if (typeof displayProductDetails === 'function') {
+                displayProductDetails();
+            }
+        });
+        
+        // Add copy link functionality
+        document.getElementById('copyLinkBtn').addEventListener('click', function() {
+            // Get the current URL
+            const currentUrl = window.location.href;
+            
+            // Create a temporary input element
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = currentUrl;
+            tempInput.select();
+            
+            try {
+                // Copy the URL to clipboard
+                document.execCommand('copy');
+                
+                // Show success message
+                const statusElement = document.getElementById('copyStatus');
+                statusElement.style.display = 'block';
+                
+                // Hide the message after 2 seconds
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 2000);
+                
+            } catch (err) {
+                console.error('Failed to copy link: ', err);
+            }
+            
+            // Remove the temporary input
+            document.body.removeChild(tempInput);
+        });
+        
+        // Function to get URL parameter
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Function to display product details
+        async function displayProductDetails() {
+            const productId = getUrlParameter('id');
+            if (!productId) {
+                console.error('No product ID found in URL');
+                return;
+            }
+
+            try {
+                // Fetch products
+                const products = await fetchProducts();
+                const product = products.find(p => p.id === productId);
+                
+                if (!product) {
+                    console.error('Product not found');
+                    return;
+                }
+
+                // Update product details
+                document.title = `${product.name} - Mercurial`;
+                document.querySelector('.product-header h1').textContent = product.name;
+                document.querySelector('.price').textContent = `₱${product.price.toFixed(2)}`;
+                
+                // Update main image
+                const mainImage = document.getElementById('mainImage');
+                if (mainImage && product.images && product.images.length > 0) {
+                    mainImage.src = product.images[0];
+                    mainImage.alt = product.name;
+                }
+
+                // Update thumbnails
+                const thumbnailContainer = document.querySelector('.thumbnail-container');
+                if (thumbnailContainer && product.images && product.images.length > 0) {
+                    thumbnailContainer.innerHTML = '';
+                    product.images.forEach((image, index) => {
+                        const thumb = document.createElement('div');
+                        thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                        thumb.innerHTML = `<img src="${image}" alt="${product.name} Thumbnail ${index + 1}">`;
+                        thumb.addEventListener('click', () => {
+                            mainImage.src = image;
+                            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                            thumb.classList.add('active');
+                        });
+                        thumbnailContainer.appendChild(thumb);
+                    });
+                }
+
+                // Update description if available
+                if (product.description) {
+                    const descElement = document.querySelector('.product-description');
+                    if (descElement) {
+                        descElement.textContent = product.description;
+                    }
+                }
+
+                // Load related products
+                loadRelatedProducts(productId, products);
+
+            } catch (error) {
+                console.error('Error loading product details:', error);
+            }
+        }
+
+        // Function to load related products
+        function loadRelatedProducts(currentProductId, allProducts) {
+            const relatedContainer = document.querySelector('.products-grid');
+            if (!relatedContainer) return;
+
+            // Filter out current product and get up to 4 related products
+            const relatedProducts = allProducts
+                .filter(p => p.id !== currentProductId)
+                .slice(0, 4);
+
+            if (relatedProducts.length === 0) {
+                relatedContainer.innerHTML = '<p>No related products found.</p>';
+                return;
+            }
+
+            relatedContainer.innerHTML = '';
+            relatedProducts.forEach(relatedProduct => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <a href="product-details.html?id=${relatedProduct.id}" class="product-image-link">
+                        <div class="product-image" style="background-image: url('${relatedProduct.images[0] || 'https://via.placeholder.com/300x400'}')">
+                            <div class="product-overlay">
+                                <a href="product-details.html?id=${relatedProduct.id}" class="quick-view">View Details</a>
+                            </div>
+                        </div>
+                    </a>
+                    <h3>${relatedProduct.name}</h3>
+                    <p class="price">₱${relatedProduct.price.toFixed(2)}</p>
+                `;
+                relatedContainer.appendChild(productCard);
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure all product images are visible
+            const allProductImages = document.querySelectorAll('img[src*="product"]');
+            allProductImages.forEach(img => {
+                img.style.display = 'block';
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+            });
+            
+            // Quantity controls
+            const decreaseBtn = document.getElementById('decrease');
+            const increaseBtn = document.getElementById('increase');
+            
+            if (decreaseBtn) {
+                decreaseBtn.addEventListener('click', function() {
+                    const quantityInput = document.getElementById('quantity');
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
+                    }
+                });
+            }
+
+            if (increaseBtn) {
+                increaseBtn.addEventListener('click', function() {
+                    const quantityInput = document.getElementById('quantity');
+                    if (parseInt(quantityInput.value) < 10) {
+                        quantityInput.value = parseInt(quantityInput.value) + 1;
+                    }
+                });
+            }
+            
+            // Load product details
+            displayProductDetails();
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

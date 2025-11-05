@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Save</title>
+</head>
+<body>
+    <h1>Test Save Function</h1>
+    <button id="testSave">Test Save to localStorage</button>
+    <button id="testLoad">Test Load from localStorage</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('testSave').addEventListener('click', function() {
+            console.log('Testing save...');
+            const testData = {
+                id: Date.now().toString(),
+                name: 'Test Product',
+                price: 100,
+                description: 'Test description'
+            };
+            
+            try {
+                localStorage.setItem('test_products', JSON.stringify([testData]));
+                document.getElementById('result').innerHTML = '<p style="color: green;">Save successful!</p>';
+                console.log('Save successful');
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Save failed: ' + error.message + '</p>';
+                console.error('Save failed:', error);
+            }
+        });
+
+        document.getElementById('testLoad').addEventListener('click', function() {
+            console.log('Testing load...');
+            try {
+                const data = localStorage.getItem('test_products');
+                if (data) {
+                    const products = JSON.parse(data);
+                    document.getElementById('result').innerHTML = '<p style="color: blue;">Loaded: ' + JSON.stringify(products) + '</p>';
+                    console.log('Load successful:', products);
+                } else {
+                    document.getElementById('result').innerHTML = '<p style="color: orange;">No data found</p>';
+                    console.log('No data found');
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Load failed: ' + error.message + '</p>';
+                console.error('Load failed:', error);
+            }
+        });
+    </script>
+</body>
+</html>
