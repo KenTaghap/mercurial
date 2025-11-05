@@ -1,9 +1,10 @@
 {
   "functions": {
-    "api/*.php": {
+    "*.php": {
       "runtime": "php@8.2"
     }
   }
 
 }
+
 
