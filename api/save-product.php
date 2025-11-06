@@ -1,7 +1,8 @@
 <?php
-// Enable error reporting for debugging (disable in production)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Clean output buffer and suppress errors for clean JSON
+ob_start();
+error_reporting(0);
+ini_set('display_errors', 0);
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -117,7 +118,8 @@ try {
     
     $productData['savedAt'] = date('Y-m-d H:i:s');
     
-    // Return success response
+    // Clean any output buffer and return success response
+    ob_clean();
     $message = $saveMode === 'local' ? 'Product saved successfully to local files' : 'Product saved successfully (demo mode)';
     echo json_encode([
         'success' => true,
@@ -127,6 +129,7 @@ try {
     ]);
     
 } catch (Exception $e) {
+    ob_clean();
     http_response_code(500);
     echo json_encode([
         'error' => $e->getMessage()
