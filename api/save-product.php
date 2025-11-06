@@ -86,7 +86,7 @@ try {
     $productData['images'] = $imageUrls;
     
     // Load existing products
-    $productsFile = '../data/producjson';
+    $productsFile = '../data/products.json';
     $existingProducts = [];
     if (file_exists($productsFile)) {
         $existingData = file_get_contents($productsFile);
