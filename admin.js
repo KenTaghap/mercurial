@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Send to PHP backend
-        const response = await fetch('save-product.php', {
+        const response = await fetch('api/save-product.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
