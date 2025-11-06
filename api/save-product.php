@@ -23,15 +23,15 @@ try {
     $images = $data['images'] ?? [];
     
     // Create directories if they don't exist
-    if (!file_exists('data')) {
-        mkdir('data', 0755, true);
+    if (!file_exists('../data')) {
+        mkdir('../data', 0755, true);
     }
-    if (!file_exists('images')) {
-        mkdir('images', 0755, true);
+    if (!file_exists('../images')) {
+        mkdir('../images', 0755, true);
     }
     
     // For edit mode: Delete old images first
-    $productsFile = 'data/products.json';
+    $productsFile = '../data/products.json';
     if (file_exists($productsFile)) {
         $existingData = file_get_contents($productsFile);
         $existingProducts = json_decode($existingData, true) ?: [];
@@ -74,11 +74,11 @@ try {
         
         // Create filename
         $fileName = $productData['id'] . '_' . $index . '.' . $extension;
-        $filePath = 'images/' . $fileName;
+        $filePath = '../images/' . $fileName;
         
         // Save image file
         if (file_put_contents($filePath, $imageBinary)) {
-            $imageUrls[] = $filePath;
+            $imageUrls[] = 'images/' . $fileName; // Store relative path from root
         }
     }
     
@@ -86,7 +86,7 @@ try {
     $productData['images'] = $imageUrls;
     
     // Load existing products
-    $productsFile = 'data/products.json';
+    $productsFile = '../data/producjson';
     $existingProducts = [];
     if (file_exists($productsFile)) {
         $existingData = file_get_contents($productsFile);
